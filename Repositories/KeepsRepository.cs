@@ -16,7 +16,7 @@ namespace keepr.Repositories
     // GetAll
     public object GetAll()
     {
-      return _db.Query<Keep>("SELECT * FROM KEEP");
+      return _db.Query<Keep>("SELECT * FROM Keep");
     }
 
     // GetById
@@ -39,6 +39,8 @@ namespace keepr.Repositories
 
     public Keep UpdateKeep(Keep value)
     {
+
+
       throw new NotImplementedException();
     }
 

@@ -20,7 +20,7 @@ namespace keepr.Controllers
       _repo = repo;
     }
 
-    // GET api/vaultkeeps
+    // GET api/vaultkeeps by vault id
     [HttpGet("{id}")]
     public ActionResult<IEnumerable<VaultKeep>> Get(int id)
     {

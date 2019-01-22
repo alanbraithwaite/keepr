@@ -31,7 +31,7 @@ namespace Keepr.Controllers
       return Ok(_repo.GetAllPublicKeeps());
     }
 
-    // GET api/keeps all keeps by user
+    // GET api/keeps/user all keeps by user
     [Authorize]
     [HttpGet("user")]
     public ActionResult<IEnumerable<Keep>> GetAction()
@@ -40,7 +40,7 @@ namespace Keepr.Controllers
       return Ok(_repo.GetAllCurrentUserKeeps(id));
     }
 
-    // GET api/values
+    // GET api/keeps/id 
     [HttpGet("{id}")]
     public ActionResult<IEnumerable<Keep>> Get(int id)
     {
@@ -52,7 +52,7 @@ namespace Keepr.Controllers
       return BadRequest();
     }
 
-    // POST api/values
+    // POST api/keeps
     [HttpPost]
     public ActionResult<Keep> Post([FromBody]Keep value)
     {
@@ -60,7 +60,7 @@ namespace Keepr.Controllers
       return Created("/api/keeps/" + result.UserId, result); ;
     }
 
-    // PUT api/values/5
+    // PUT api/keeps/id
     [HttpPut("{id}")]
     public ActionResult<Keep> Put(int id, [FromBody] Keep value)
     {
@@ -68,7 +68,7 @@ namespace Keepr.Controllers
       return Created("/api/keeps/" + result.Id, "success");
     }
 
-    // DELETE api/values/5
+    // DELETE api/keeps/id
     [HttpDelete("{id}")]
     public ActionResult<string> Delete(int id)
     {

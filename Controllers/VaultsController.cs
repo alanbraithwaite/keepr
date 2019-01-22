@@ -28,7 +28,7 @@ namespace Keepr.Controllers
       return Ok(_repo.GetAll());
     }
 
-    // GET api/vaults
+    // GET api/vaults by user
     [Authorize]
     [HttpGet("user")]
     public ActionResult<IEnumerable<Vault>> GetAction()
@@ -36,11 +36,11 @@ namespace Keepr.Controllers
       return Ok(_repo.GetByUserId(HttpContext.User.Identity.Name));
     }
 
-    // GET api/values
+    // GET api/vaults vaults by id
     [HttpGet("{id}")]
     public ActionResult<IEnumerable<Vault>> Get(int id)
     {
-      Vault result = _repo.GetById(id);
+      Vault result = _repo.GetByVaultId(id);
       if (result != null)
       {
         return Ok(result);
@@ -48,7 +48,7 @@ namespace Keepr.Controllers
       return BadRequest();
     }
 
-    // POST api/values
+    // POST api/vaults 
     [Authorize]
     [HttpPost]
     public ActionResult<Vault> Post([FromBody]Vault value)
@@ -59,7 +59,7 @@ namespace Keepr.Controllers
     }
 
 
-    // DELETE api/values/5
+    // DELETE api/vaults
     [Authorize]
     [HttpDelete("{id}")]
     public ActionResult<string> Delete(int id)

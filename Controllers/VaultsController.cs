@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using keepr.Repositories;
 using Keepr.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Keepr.Controllers
@@ -27,6 +28,14 @@ namespace Keepr.Controllers
       return Ok(_repo.GetAll());
     }
 
+    // GET api/vaults
+    [Authorize]
+    [HttpGet("user")]
+    public ActionResult<IEnumerable<Vault>> GetAction()
+    {
+      return Ok(_repo.GetByUserId(HttpContext.User.Identity.Name));
+    }
+
     // GET api/values
     [HttpGet("{id}")]
     public ActionResult<IEnumerable<Vault>> Get(int id)
@@ -40,26 +49,22 @@ namespace Keepr.Controllers
     }
 
     // POST api/values
+    [Authorize]
     [HttpPost]
     public ActionResult<Vault> Post([FromBody]Vault value)
     {
+      value.UserId = HttpContext.User.Identity.Name;
       Vault result = _repo.AddVault(value);
-      return Created("/api/vault/" + result.UserId, result); ;
+      return Created("/api/vaults/" + result.UserId, result); ;
     }
 
-    // PUT api/values/5
-    [HttpPut("{id}")]
-    public ActionResult<Vault> Put(int id, [FromBody] Vault value)
-    {
-      Vault result = _repo.UpdateVault(value);
-      return Created("/api/vault/" + result.Id, "success");
-    }
 
     // DELETE api/values/5
+    [Authorize]
     [HttpDelete("{id}")]
     public ActionResult<string> Delete(int id)
     {
-      if (_repo.DeleteVault(id))
+      if (_repo.DeleteVault(id, HttpContext.User.Identity.Name))
       {
         return Ok("Successfully deleted!");
       }

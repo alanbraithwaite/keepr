@@ -14,22 +14,30 @@ namespace keepr.Repositories
     }
 
     // GetAll
-    public object GetAll()
+    public object GetAllPublicKeeps()
     {
-      return _db.Query<Keep>("SELECT * FROM Keep");
+      return _db.Query<Keep>("SELECT * FROM Keeps WHERE isPrivate = 0");
     }
+
+
+    // GetById
+    public object GetAllCurrentUserKeeps(string id)
+    {
+      return _db.Query<Keep>(@"SELECT * FROM Keeps WHERE userId=@id", new { id });
+    }
+
 
     // GetById
     public Keep GetById(int id)
     {
-      return _db.QueryFirstOrDefault<Keep>($"SELECT * FROM Keep WHERE id=@id", new { id });
+      return _db.QueryFirstOrDefault<Keep>($"SELECT * FROM Keeps WHERE id=@id", new { id });
     }
 
     // AddKeep
     public Keep AddKeep(Keep newKeep)
     {
       int id = _db.ExecuteScalar<int>(@"
-      ISERT INTO Keep(name, description, userId, img, isPrivate, views, shares, keeps)
+      INSERT INTO Keeps(name, description, userId, img, isPrivate, views, shares, keeps)
       Values(@Name, @Description, @UserId, @Img, @IsPrivate, @Views, @Shares, @Keeps);
       SELECT LAST_INSERT_ID();",
        newKeep);
@@ -39,14 +47,21 @@ namespace keepr.Repositories
 
     public Keep UpdateKeep(Keep value)
     {
+      // SET(name, description, img, isPrivate, views, shares, keeps)
+      // VALUES(@Name, @Description, @Img, @IsPrivate, @Views, @Shares, @Keeps); ", value);
+      int success = _db.Execute(@"UPDATE keeps SET 
+      name = @Name, description=@Description, img=@Img, isPrivate=@IsPrivate, 
+      views=@Views, shares=@Shares, keeps=@Keeps
+      WHERE id =@id 
+      ", value);
 
-
-      throw new NotImplementedException();
+      if (success != 1) return null;
+      return value;
     }
 
     public bool DeleteKeep(int id)
     {
-      int success = _db.Execute(@"DELETE FROM Keep WHERE id = @id", new { id });
+      int success = _db.Execute(@"DELETE FROM Keeps WHERE id = @id", new { id });
       return success != 0;
     }
 

@@ -11,5 +11,11 @@ Vue.config.productionTip = false
 new Vue({
   router,
   store,
+
+  mounted() {
+    //checks for valid session
+    this.$store.dispatch("authenticate");
+  },
+
   render: h => h(App)
 }).$mount('#app')

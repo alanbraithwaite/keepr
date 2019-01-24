@@ -49,12 +49,11 @@ namespace keepr.Repositories
     }
 
     //DeleteVaultKeep
-
     public bool DeleteVaultKeep(VaultKeep vk)
     {
-      int success = _db.Execute(@"DELETE FROM VaultKeeps WHERE keepId = @KeepId AND vaultId = @VaultId AND userId = @UserId", vk);
+      int success = _db.Execute(@"DELETE FROM VaultKeeps WHERE keepId = @KeepId 
+      AND vaultId = @VaultId AND userId = @UserId", vk);
       return success != 0;
-
     }
 
 

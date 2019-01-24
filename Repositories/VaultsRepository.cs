@@ -16,10 +16,10 @@ namespace keepr.Repositories
     }
 
     // GetAll
-    public object GetAll()
-    {
-      return _db.Query<Vault>("SELECT * FROM Vaults");
-    }
+    // public object GetAll()
+    // {
+    //   return _db.Query<Vault>("SELECT * FROM Vaults");
+    // }
 
     // GetByUserId
     public object GetByUserId(string userId)

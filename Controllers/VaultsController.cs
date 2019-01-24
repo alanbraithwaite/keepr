@@ -22,15 +22,15 @@ namespace Keepr.Controllers
     }
 
     // GET api/vaults
-    [HttpGet]
-    public ActionResult<IEnumerable<Vault>> Get()
-    {
-      return Ok(_repo.GetAll());
-    }
+    // [HttpGet]
+    // public ActionResult<IEnumerable<Vault>> Get()
+    // {
+    //   return Ok(_repo.GetAll());
+    // }
 
     // GET api/vaults by user
     [Authorize]
-    [HttpGet("user")]
+    [HttpGet]
     public ActionResult<IEnumerable<Vault>> GetAction()
     {
       return Ok(_repo.GetByUserId(HttpContext.User.Identity.Name));

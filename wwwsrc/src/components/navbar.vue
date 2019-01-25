@@ -1,13 +1,11 @@
 <template>
 
-  <div id="app" class="row d-flex justify-content-center">
+  <div id="app" class="row col-12 d-flex justify-content-center">
     <router-link to="/">Home</router-link> |
     <router-link v-if="user.id" to="/dashboard">Dashboard</router-link> |
     <router-link v-if="!user.id" to="/login">Login</router-link> |
     <router-link to="/about">About</router-link>
-    <!-- <div v-if="user.id" class="fixed-top d-flex justify-content-end"> -->
-    <button @click="logout">Logout</button>
-    <!-- </div> -->
+    <button v-if="user.id" @click="logout">Logout</button>
   </div>
 
 </template>

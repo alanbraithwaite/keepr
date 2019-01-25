@@ -4,6 +4,8 @@
       <div class="col d-flex justify-content-center">
         <h1>Vault name goes here</h1>
       </div>
+      <router-link :to="{name: 'vaults'}">back to Vaults</router-link>
+
     </div>
     <div class="row col d-flex justify-content-center" v-for="keep in vaultkeeps" :key="keep.id">
       <div class=" card">
@@ -11,7 +13,7 @@
         <span class="name">{{keep.name}}</span>
         <span class="kept"><i class="far fa-thumbs-up"></i>Kept: {{keep.keeps}}</span>
         <span class="views"><i class="far fa-eye"></i>Views: {{keep.views}} </span>
-        <button @click="removeFromVault"><i class="fas fa-minus"></i></button>
+        <button @click="removeFromVault(keep.id)"><i>remove</i></button>
       </div>
     </div>
 
@@ -23,22 +25,28 @@
     name: 'vault',
     data() {
       return {
+
       }
+    },
+
+    mounted() {
+      this.$store.dispatch("getVaultKeeps")
     },
     computed: {
       vaultkeeps(keepId) {
         return this.$store.state.vaultkeeps;
       },
       activevault() {
-        this.$store.state.activevault;
+        return this.$store.state.activevault;
       }
 
 
     },
     methods: {
 
-      removeFromVault() {
-        this.$store.dispatch("removeFromVault", keepId);
+      removeFromVault(keepId) {
+
+        this.$store.dispatch("removeFromVault", { keepId, vaultId: this.activevault.id });
       }
     }
   }

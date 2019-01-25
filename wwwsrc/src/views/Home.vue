@@ -16,7 +16,6 @@
 </template>
 
 <script>
-  import keep from "@/components/keep.vue"
 
   export default {
     name: "home",

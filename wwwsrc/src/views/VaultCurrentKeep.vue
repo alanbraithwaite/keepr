@@ -3,13 +3,13 @@
     <div class="row">
       <div class="row d-flex justify-content-center">
         <div class=" card">
-          <span class="img">{{keep.img}}</span>
-          <img :src="keep.img" height="150" width="200">
+          <!-- <span class="img">{{keep.img}}</span> -->
+          <img :src="keep.img" height="500" width="600">
           <span class="name">{{keep.name}}</span>
           <span class="kept"><i class="far fa-thumbs-up"></i>Kept: {{keep.keeps}}</span>
           <span class="views"><i class="far fa-eye"></i>Views: {{keep.views}} </span>
-          <router-link :to="{name: 'keeps'}">
-            <h4>Back to Keeps</h4>
+          <router-link :to="{name: 'vault', params:{vaultId:$route.params.vaultId}}">
+            <h5>Back to Vault</h5>
           </router-link>
         </div>
       </div>
@@ -20,7 +20,7 @@
 
 <script>
   export default {
-    name: 'currentkeep',
+    name: 'vaultcurrentkeep',
     data() {
       return {
 
@@ -36,7 +36,7 @@
         return this.$route.params.keepId
       },
       keep() {
-        return this.$store.state.userkeeps.find(k => k.id == this.keepId) || {}
+        return this.$store.state.publickeeps.find(k => k.id == this.keepId) || {}
       }
     },
 

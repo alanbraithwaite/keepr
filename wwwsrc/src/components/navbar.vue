@@ -1,10 +1,18 @@
 <template>
 
   <div id="app" class="row col-12 d-flex justify-content-center">
-    <router-link to="/">Home</router-link> |
-    <router-link v-if="user.id" to="/dashboard">Dashboard</router-link> |
-    <router-link v-if="!user.id" to="/login">Login</router-link> |
-    <router-link to="/about">About</router-link>
+    <router-link to="/">
+      <h4> Home |</h4>
+    </router-link>
+    <router-link v-if="user.id" to="/dashboard">
+      <h4>Dashboard |</h4>
+    </router-link>
+    <router-link v-if="!user.id" to="/login">
+      <h4> Login |</h4>
+    </router-link>
+    <router-link to="/about">
+      <h4>About </h4>
+    </router-link>
     <button v-if="user.id" @click="logout">Logout</button>
   </div>
 

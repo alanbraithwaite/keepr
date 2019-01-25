@@ -17,7 +17,11 @@
           <h3>{{vault.description}}</h3>
         </span>
         <span class="name">
-          <button @click="openVault(vault.id)"><i class="fas fa-plus"></i></button>
+          <router-link :to="{name: 'vault', params: {vaultId: vault.id}}">
+            <h4>VIEW</h4>
+          </router-link>
+          <!-- <button @click="openVault(vault.id)"><i class="fas fa-plus"></i></button> -->
+          <button @click="deleteVault(vault.id)"><i class="fas fa-trash"></i></button>
         </span>
       </div>
     </div>
@@ -46,17 +50,27 @@
       }
 
     },
+
+    mounted() {
+      // get from store
+      // this.$store.dispatch('getVaults');
+
+    },
+
     methods: {
+      deleteVault(vaultId) {
+        this.$store.dispatch('deleteVault', vaultId)
+      },
+
       addVault() {
         this.$store.dispatch('addVault', this.newVault)
         this.newVault = { Name: '', Description: '' }
       },
-      openVault(vaultId) {
+      // openVault(vaultId) {
 
-        this.$store.dispatch('getVaultKeeps', vaultId)
-      }
+      // }
 
-    }
+    },
   }
 
 </script>

@@ -9,7 +9,7 @@
           <input type="text" placeholder="Name" v-model="newKeep.name" required>
           <input type="text" placeholder="Image Link" v-model="newKeep.img">
           <input type="textarea" placeholder="Description" v-model="newKeep.description" required>
-          <input type="checkbox" v-model="isPrivate" title="Private">
+          <input type="checkbox" v-model="newKeep.isPrivate" title="Private">
           <button data-toggle="tooltip" data-placement="bottom" title="addKeep" type="submit"><i class="fas fa-plus"></i></button>
         </form>
       </div>
@@ -25,23 +25,10 @@
               <router-link :to="{name: 'currentkeep', params: {keepId: keep.id}}">
                 <h4>VIEW</h4>
               </router-link>
-              <select v-model="selectedVault" name="Add to Vault">
-                <option selected>Add to Vault</option>
-                <option @click="addKeepToVault(keep.id,vault.id)" v-for="vault in vaults" :key="vault.name" class="custom-select"
-                  :value="vault.id">{{vault.name}}</option>
+              <select v-model="selectedVault">
+                <option v-for="vault in vaults" class="custom-select" :value="vault.id">{{vault.name}}</option>
               </select>
-
-              <!-- <div class="dropdown">
-                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
-                  aria-haspopup="true" aria-expanded="false">
-                  <i class="fas fa-plus"></i>Vault
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item" href="" v-for="vault in vaults" :key="vault.name"></a>>{{vault.name}}</a>
-                </div>
-              </div> -->
-              <!-- <button class="" @click="getKeep(keep.id)">View</button> -->
-
+              <button type="button" @click.prevent="addKeepToVault(keep.id)">Add to Vault</button>
             </div>
           </div>
         </div>
@@ -57,7 +44,6 @@
     data() {
 
       return {
-        selectedVault: 'Add to Vault',
 
         showAddKeepForm: false,
         newKeep: {
@@ -81,14 +67,22 @@
         return this.$store.state.vaults;
       }
     },
+
+    mounted() {
+      this.$store.dispatch('getUserKeeps');
+
+    },
     methods: {
-      addKeepToVault(keepId, vaultId) {
+
+
+      addKeepToVault(keepId) {
         // creats a keyvaule pair
-        let payload = {
-          keepId,
-          vaultId
+
+        let payload =
+        {
+          keepId: keepId,
+          vaultId: this.selectedVault
         }
-        debugger
         this.$store.dispatch('addKeepToVault', payload)
       },
 

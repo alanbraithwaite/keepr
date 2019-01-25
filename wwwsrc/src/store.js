@@ -107,6 +107,16 @@ export default new Vuex.Store({
 
 
 
+    incrementKeepView({ commit, dispatch }, keep) {
+      keep.views++
+      api.put('keeps/' + keep.id, keep)
+        .then(res => {
+          // dispatch("getUserKeeps")
+        })
+        .catch(err => console.log('Cannot increment keep view'))
+    },
+
+
     getUserKeeps({ commit, dispatch }) {
       api.get('keeps/user')
         .then(res => {
@@ -130,7 +140,7 @@ export default new Vuex.Store({
         .then(res => {
           dispatch("getUserKeeps")
         })
-        .catch(err => console.log('Cannot get public keeps'))
+        .catch(err => console.log('Cannot delete keeps'))
     },
 
 
@@ -140,7 +150,7 @@ export default new Vuex.Store({
         .then(res => {
           console.log("vaults", res.data)
           commit("setVaults", res.data)
-          router.push({ name: 'vaults' })
+          // router.push({ name: 'vaults' })
         })
         .catch(err => console.log('Cannot get Vaults'))
     },
@@ -148,6 +158,14 @@ export default new Vuex.Store({
     addVault({ commit, dispatch }, newVault) {
       api.post('vaults/', newVault)
         .then(newVault => {
+          dispatch('getVaults')
+        })
+    },
+
+    deleteVault({ commit, dispatch }, vaultId) {
+
+      api.delete('vaults/' + vaultId)
+        .then(res => {
           dispatch('getVaults')
         })
     },
@@ -160,28 +178,25 @@ export default new Vuex.Store({
           commit("setVaultKeeps", res.data)
           commit("setActiveVault", vault)
 
-          router.push({ name: 'vault' })
+          // router.push({ name: 'vault' })
         })
         .catch(err => console.log('Cannot get keeps by Vault'))
     },
 
     removeFromVault({ commit, dispatch }, payload) {
-
-      // let deletepath = "/vaultkeeps/${keepId}"
       api.put('vaultkeeps/', payload)
         .then(res => {
-          router.push({ name: 'vault' })
-          // dispatch("getVaultKeeps")
+          dispatch('getVaultKeeps', payload.vaultId)
+          // router.push({ name: 'vault' })
         })
         .catch(err => console.log('Cannot remove Keep from Vault'))
     },
 
     addKeepToVault({ commit, dispatch }, payload) {
-      debugger
       api.post('vaultkeeps/', payload)
         .then(res => {
           console.log("Add Keep to Vault", res.data)
-          dispatch('getVaultKeeps')
+          dispatch('getVaultKeeps', payload.vaultId)
         })
     }
 

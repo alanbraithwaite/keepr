@@ -14,6 +14,10 @@ import Vaults from './views/Vaults.vue'
 import Vault from './views/Vault.vue'
 // @ts-ignore
 import CurrentKeep from './views/CurrentKeep.vue'
+// @ts-ignore
+import VaultCurrentKeep from './views/VaultCurrentKeep.vue'
+// @ts-ignore
+import HomeCurrentKeep from './views/HomeCurrentKeep.vue'
 
 Vue.use(Router)
 
@@ -45,8 +49,9 @@ export default new Router({
       component: Vaults
     },
     {
-      path: '/vault',
+      path: '/vault/:vaultId',
       name: 'vault',
+      props: true,
       component: Vault
     },
     {
@@ -54,6 +59,18 @@ export default new Router({
       name: 'currentkeep',
       props: true,
       component: CurrentKeep
+    },
+    {
+      path: '/vaultcurrentkeep/:keepId/:vaultId',
+      name: 'vaultcurrentkeep',
+      props: true,
+      component: VaultCurrentKeep
+    },
+    {
+      path: '/homecurrentkeep/:keepId',
+      name: 'homecurrentkeep',
+      props: true,
+      component: HomeCurrentKeep
     }
 
   ]

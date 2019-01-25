@@ -1,22 +1,30 @@
 <template>
-  <div class="">
-    <div class=" row col d-flex justify-content-center">
-      <div class="col d-flex justify-content-center">
-        <h1>Vault name goes here</h1>
+  <div class="row  d-flex justify-content-center">
+    <h1>{{activevault.name}}</h1>
+    <router-link :to="{name: 'vaults'}">
+      <h4> back to Vaults </h4>
+    </router-link>
+    <div class="row">
+      <div class=" row col d-flex justify-content-center">
+        <div class="">
+        </div>
+
       </div>
-      <router-link :to="{name: 'vaults'}">back to Vaults</router-link>
+      <div class="row col d-flex justify-content-center" v-for="keep in vaultkeeps">
+        <div class=" card">
+          <img :src="keep.img" height="150" width="200">
+          <span class="name">{{keep.name}}</span>
+          <span class="kept"><i class="far fa-thumbs-up"></i>Kept: {{keep.keeps}}</span>
+          <span class="views"><i class="far fa-eye"></i>Views: {{keep.views}} </span>
+          <button @click="removeFromVault(keep.id)"><i>remove</i></button>
+          <router-link :to="{name: 'vaultcurrentkeep', params: {keepId: keep.id, vaultId:activevault.id}}">
+            <h4>VIEW</h4>
+          </router-link>
+
+        </div>
+      </div>
 
     </div>
-    <div class="row col d-flex justify-content-center" v-for="keep in vaultkeeps" :key="keep.id">
-      <div class=" card">
-        <img :src="keep.img" height="150" width="200">
-        <span class="name">{{keep.name}}</span>
-        <span class="kept"><i class="far fa-thumbs-up"></i>Kept: {{keep.keeps}}</span>
-        <span class="views"><i class="far fa-eye"></i>Views: {{keep.views}} </span>
-        <button @click="removeFromVault(keep.id)"><i>remove</i></button>
-      </div>
-    </div>
-
   </div>
 </template>
 
@@ -30,14 +38,15 @@
     },
 
     mounted() {
-      this.$store.dispatch("getVaultKeeps")
+      this.$store.dispatch('getVaultKeeps', this.$route.params.vaultId)
+
     },
     computed: {
       vaultkeeps(keepId) {
         return this.$store.state.vaultkeeps;
       },
       activevault() {
-        return this.$store.state.activevault;
+        return this.$store.state.vaults.find(v => v.id == this.$route.params.vaultId);
       }
 
 
@@ -45,15 +54,25 @@
     methods: {
 
       removeFromVault(keepId) {
-
-        this.$store.dispatch("removeFromVault", { keepId, vaultId: this.activevault.id });
+        let payload = { keepId: keepId, vaultId: this.activevault.id };
+        debugger
+        this.$store.dispatch("removeFromVault", payload);
       }
-    }
+    },
+
+    // props: ['vaultId']
+
   }
 
 </script>
 
 <style>
+  h1 {
+    color: azure;
+  }
 
-
+  h4 {
+    border-color: black;
+    color: azure;
+  }
 </style>
